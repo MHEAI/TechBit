@@ -12,3 +12,6 @@ wheels/
 # Test folders
 test
 test/
+
+#Temp Folders
+script.json
