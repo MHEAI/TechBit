@@ -10,7 +10,7 @@ class Scriptor:
 
     def generate_script(self, topic):
         prompt = f"""
-        You are a content creator making high-energy YouTube Shorts focused on beginner coding tips and hacks. The final output will be read using a voice generator (ElevenLabs) and synced with fast-paced visuals.
+        You are a content creator making high-energy YouTube Shorts focused on beginner coding tips and hacks. The final output will be read using a voice generator  and synced with fast-paced visuals.
 
         For the topic: "{topic}", generate a JSON object following the structure below. This script will be automatically turned into audio and video — so everything must be voice-ready.
 
@@ -25,7 +25,7 @@ class Scriptor:
         - Do NOT include comments or explanations.
         - The code should demonstrate the core solution clearly.
 
-        🟢 Emphasis: Use CAPS to emphasize key words (e.g., “This is a GAME-CHANGER.”) for vocal emphasis.
+        🟢 Emphasis: Use CAPS to emphasize key words (e.g., “This is a GAME-CHANGER.”) for vocal emphasis. Additionally do not use emjos in your answer
 
         🟢 Pauses: Add `[...]` (3 dots in brackets) to indicate short dramatic pauses.
 
@@ -94,10 +94,11 @@ class Scriptor:
         topic = data["topic"]
         hook = data["hook"]
         intro = data["intro"]
-        text = data["problem"]["text"]
+        problem_text = data["problem"]["text"]
+        text = data["solution"]["text"]
         visual = data["problem"]["visual"]
         code = data["solution"]["code"]
         emphasize_words = data["problem"]["emphasize"] + data["solution"]["emphasize"]
         outro = data["outro"]
 
-        return topic, hook, intro, text, visual, code, emphasize_words, outro
+        return topic, hook, intro, problem_text,text, visual, code, emphasize_words, outro
