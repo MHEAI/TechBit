@@ -15,3 +15,6 @@ test/
 
 #Temp Folders
 script.json
+
+#Enviroment Variables
+.env

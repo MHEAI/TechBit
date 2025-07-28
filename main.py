@@ -15,21 +15,21 @@ def main():
     video_editor = VideoEditor()
     voice_over = VoiceOver()
     
+    topic = "a simple random generator game"
     
-    
-    scriptor.generate_script()
+    scriptor.generate_script(topic)
     
     topic, hook,intro, text,visual, code, emphasize_words,outro = scriptor.seperate_characters()
     
-    voice_over_path = voice_over.generate_voiceover(topic,hook,intro,text,emphasize_words,outro)
+    # voice_over_path = voice_over.generate_voiceover(topic,hook,intro,text,emphasize_words,outro)
     
-    code_snippet = code_generator.generate_code_snippet(code)
+    # code_snippet = code_generator.generate_code_snippet(code)
     
-    photos_paths =  photo_finder.find_photos(visual)
+    # photos_paths =  photo_finder.find_photos(visual)
     
-    video_path = video_editor.generate_video()
+    # video_path = video_editor.generate_video()
     
-    uploader.upload_video(video_path)
+    # uploader.upload_video(video_path)
     
 if __name__ == "__main__":
     main()
