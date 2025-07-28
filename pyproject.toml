@@ -8,9 +8,14 @@ dependencies = [
     "colorama>=0.4.6",
     "dotenv>=0.9.9",
     "elevenlabs>=2.8.0",
+    "gtts>=2.5.4",
+    "logging>=0.4.9.6",
     "moviepy>=2.2.1",
     "ollama>=0.5.1",
-    "openai>=1.97.1",
     "pytest>=8.4.1",
     "requests>=2.32.4",
+    "tts",
 ]
+
+[tool.uv.sources]
+tts = { git = "https://github.com/Norman742/ttspython312.git" }
