@@ -3,6 +3,9 @@ import shutil
 from pathlib import Path
 import sys
 
+from pydub.generators import Sine
+from pydub import AudioSegment
+
 import pytest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from Classes.voice_over import VoiceOver
@@ -15,6 +18,17 @@ def cleanup_voice_overs():
     yield
     if path.exists():
         shutil.rmtree(path)
+
+@pytest.fixture
+def test_mp3(tmp_path):
+    sine = Sine(440).to_audio_segment(duration=2000)
+    path = tmp_path / "pytest_temp_audio.mp3"
+    sine.export(path, format="mp3")
+    return path
+
+
+
+
 
 # ===== Unit tests on _validate_text  =====
 
@@ -72,3 +86,21 @@ def test_prepare_path_creates_directory():
     p = vo._prepare_path()
     assert p.exists()
     assert p.is_dir()
+    
+
+def test_increase_speed_reduces_duration(test_mp3):
+    
+    v = VoiceOver()
+    
+    
+    original_audio = AudioSegment.from_file(test_mp3)
+    original_duration = len(original_audio)
+    
+    v._increase_speed(test_mp3)
+    
+    new_audio = AudioSegment.from_file(test_mp3)
+    new_duration = len(new_audio)
+    
+    assert new_duration < original_duration
+    
+    

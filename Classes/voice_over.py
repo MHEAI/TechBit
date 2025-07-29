@@ -5,6 +5,8 @@ import re
 import logging
 from dotenv import load_dotenv
 
+
+from pydub import AudioSegment
 from gtts import gTTS
 
 
@@ -29,16 +31,34 @@ class VoiceOver:
        logging.info(f"Beginning voiceover with text : {text} and filename {filename} ")
                    
        try:
-           self._generate_tts(text,full_path)
+           temp_path = self._generate_tts(text,full_path)
+           self._increase_speed(temp_path)
            logging.info(f"Successfully saved voiceover to {full_path}")
            return full_path
        except Exception as e:
            logging.error(f"Error while creating voiceover. Error: {e}")
            return None
+       
+       
     def _generate_tts(self, text: str, path: Path) -> str:
        tts = gTTS(text)
-       tts.save(path)
+       tts.save(path) 
+       return path
+   
+    def _increase_speed(self,path : Path):
+        
+       increase_speed = 1.5
+       audio =  AudioSegment.from_file(path)
+       faster_audio = audio.speedup(playback_speed=increase_speed)
        
+       
+       temp_path =  path.with_name(path.stem + "_fast.mp3")
+       faster_audio.export(temp_path,format = "mp3")
+       os.remove(path)
+       
+       temp_path.rename(path)
+    
+    
     def _prepare_path(self) -> Path:
         
         logging.info("Preparing Path ")
@@ -82,3 +102,4 @@ class VoiceOver:
             logging.warning("Voiceover text contains numbers")
 
         return True
+    
