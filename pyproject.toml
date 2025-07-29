@@ -5,17 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "colorama>=0.4.6",
-    "dotenv>=0.9.9",
-    "elevenlabs>=2.8.0",
-    "gtts>=2.5.4",
-    "logging>=0.4.9.6",
-    "moviepy>=2.2.1",
-    "ollama>=0.5.1",
-    "pytest>=8.4.1",
-    "requests>=2.32.4",
-    "tts",
+    "gtts==2.5.4",
+    "moviepy==2.2.1",
+    "ollama==0.5.1",
+    "pillow==11.3.0",
+    "pygments==2.19.2",
+    "pytest==8.4.1",
+    "python-dotenv==1.1.1",
 ]
-
-[tool.uv.sources]
-tts = { git = "https://github.com/Norman742/ttspython312.git" }
