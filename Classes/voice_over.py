@@ -47,7 +47,7 @@ class VoiceOver:
    
     def _increase_speed(self,path : Path):
         
-       increase_speed = 1.5
+       increase_speed = 1.25
        audio =  AudioSegment.from_file(path)
        faster_audio = audio.speedup(playback_speed=increase_speed)
        

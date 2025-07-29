@@ -16,23 +16,26 @@ def main():
     video_editor = VideoEditor()
     voice_over = VoiceOver()
     
-    topic = "any cool python fact"
+    topic = "Using the random library"
     
     Utilizer.ensure_ollama_running()
     scriptor.generate_script(topic)
     
-    topic, hook,intro, problem_text,text,visual, code, emphasize_words,outro = scriptor.seperate_items("script.json")
+    topic,hook,intro,problem_text,problem_visual,solution_text,solution_code,emphasize_words,why_it_matters,common_mistakes,outro,tone,visual_tags,music_mood= scriptor.seperate_items("script.json")
     
     
     topic_audio = voice_over.create_voiceover(topic,"topic")
     hook_audio = voice_over.create_voiceover(hook,"hook")
     intro_audio = voice_over.create_voiceover(intro,"intro")
     problem_text_audio = voice_over.create_voiceover(problem_text,"problem_text")
-    text_audio = voice_over.create_voiceover(text,"text")
-    outro_audio = voice_over.create_voiceover(outro,"outro")
-    
-
-    # voice_over_path = voice_over.generate_voiceover(topic,hook,intro,text,emphasize_words,outro)
+    solution_text_audio = voice_over.create_voiceover(solution_text,"text")
+    why_it_matters_audio = voice_over.create_voiceover(why_it_matters,"why_it_matters")
+    common_mistakes_audio = []
+    for i, mistake in enumerate(common_mistakes, 1):
+        filename = f"common_mistake_{i}"
+        audio = voice_over.create_voiceover(mistake, filename)
+        common_mistakes_audio.append(audio)
+        outro_audio = voice_over.create_voiceover(outro,"outro")
     
     # code_snippet = code_generator.generate_code_snippet(code)
     

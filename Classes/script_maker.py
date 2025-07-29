@@ -1,5 +1,6 @@
 import json
 import re 
+import os 
 
 import ollama
 
@@ -10,46 +11,60 @@ class Scriptor:
 
     def generate_script(self, topic):
         prompt = f"""
-        You are a content creator making high-energy YouTube Shorts focused on beginner coding tips and hacks. The final output will be read using a voice generator  and synced with fast-paced visuals.
+            You are a content creator making high-energy YouTube Shorts focused on beginner coding tips and hacks. The final output will be read using a voice generator and synced with fast-paced visuals.
 
-        For the topic: "{topic}", generate a JSON object following the structure below. This script will be automatically turned into audio and video — so everything must be voice-ready.
+            For the topic: "{topic}", generate a JSON object following the structure below. This script will be automatically turned into audio and video — so everything must be voice-ready.
 
-        🟢 Voice Style: Energetic, friendly, Gen Z tone. Use short, punchy sentences. Speak like a real person, not a textbook. Contractions are great. Add rhythm. Make it fun.
+            🟢 Voice Style: Energetic, friendly, Gen Z tone. Use short, punchy sentences. Speak like a real person, not a textbook. Contractions are great. Add rhythm. Make it fun.
 
-        🟢 Timing: The total spoken script (all sections) must take between 50–60 seconds when read naturally. Use natural phrasing to hit the right pace.
+            🟢 Timing: The total spoken script (all sections) must take between 50–60 seconds when read naturally. Use natural phrasing to hit the right pace.
 
-        🟢 Code Snippet (solution.code): 
-        - Must be beginner-friendly.
-        - 3 to 6 lines max.
-        - Use plain text with `\n` for new lines.
-        - Do NOT include comments or explanations.
-        - The code should demonstrate the core solution clearly.
+            🟢 Code Snippet (solution.code): 
+            - Must be beginner-friendly.
+            - 3 to 6 lines max.
+            - Use plain text with `\\n` for new lines.
+            - Do NOT include comments or explanations.
+            - The code should demonstrate the core solution clearly.
 
-        🟢 Emphasis: Use CAPS to emphasize key words (e.g., “This is a GAME-CHANGER.”) for vocal emphasis. Additionally do not use emjos in your answer
+            🟢 Content Length Requirements:
+            - Intro: Write 2 to 3 engaging sentences introducing the topic.
+            - Problem: Explain the problem clearly in 3 slightly longer sentences, including why it matters.
+            - Solution: Provide a detailed explanation in 3 to 4 sentences, plus the code snippet.
+            - Why it matters: Explain in 2 to 3 sentences why this tip is important for beginners.
+            - Common Mistakes: List 2 common beginner mistakes related to this topic in 1-2 sentences each.
 
-        🟢 Pauses: Add `[...]` (3 dots in brackets) to indicate short dramatic pauses.
+            🟢 Emphasis: Use CAPS to emphasize key words (e.g., “This is a GAME-CHANGER.”) for vocal emphasis. Do NOT use emojis in your answer.
 
-        🟢 Visual cues: Keep "visual", "visual_tags", "sfx_tags", and "music_mood" fields simple and creative — they help the video editor layer sound and visuals.
+            🟢 Pauses: Add `[...]` (3 dots in brackets) to indicate short dramatic pauses.
 
-        Return ONLY the valid JSON below. Do NOT include anything else.
+            🟢 Visual cues: Keep "visual", "visual_tags", "sfx_tags", and "music_mood" fields simple and creative — they help the video editor layer sound and visuals.
 
-        {{
-        "topic": "",
-        "hook": "",
-        "intro": "",
-        "problem": {{
-            "text": "",
-            "visual": "",
-            "emphasize": []
-        }},
-        "solution": {{
-            "text": "",
-            "code": "",
-            "emphasize": []
-        }},
-        "why_it_matters": "",
-        "outro": "", 
-        }}
+            Return ONLY the valid JSON below. Do NOT include anything else.
+
+            {{
+            "topic": "",
+            "hook": "",
+            "intro": "",
+            "problem": {{
+                "text": "",
+                "visual": "",
+                "emphasize": []
+            }},
+            "solution": {{
+                "text": "",
+                "code": "",
+                "emphasize": []
+            }},
+            "why_it_matters": "",
+            "common_mistakes": [
+                "",
+                ""
+            ],
+            "outro": "",
+            "tone": "",
+            "visual_tags": [],
+            "music_mood": ""
+            }}
         """
 
         full_reply = ""
@@ -87,18 +102,41 @@ class Scriptor:
             
         with open("script.json","w") as f:
             json.dump(script_json,f,indent=2)
-    def seperate_items(self,file):
-        with open(file, "r") as f:
+    def seperate_items(self, file):
+        with open(file, "r", encoding="utf-8") as f:
             data = json.load(f)
 
         topic = data["topic"]
         hook = data["hook"]
         intro = data["intro"]
         problem_text = data["problem"]["text"]
-        text = data["solution"]["text"]
-        visual = data["problem"]["visual"]
-        code = data["solution"]["code"]
+        problem_visual = data["problem"]["visual"]
+        solution_text = data["solution"]["text"]
+        solution_code = data["solution"]["code"]
         emphasize_words = data["problem"]["emphasize"] + data["solution"]["emphasize"]
+        why_it_matters = data["why_it_matters"]
+        common_mistakes = data["common_mistakes"]
         outro = data["outro"]
+        tone = data["tone"]
+        visual_tags = data["visual_tags"]
+        music_mood = data["music_mood"]
 
-        return topic, hook, intro, problem_text,text, visual, code, emphasize_words, outro
+        
+        return (
+            topic,
+            hook,
+            intro,
+            problem_text,
+            problem_visual,
+            solution_text,
+            solution_code,
+            emphasize_words,
+            why_it_matters,
+            common_mistakes,
+            outro,
+            tone,
+            visual_tags,
+            music_mood
+        )
+
+    
