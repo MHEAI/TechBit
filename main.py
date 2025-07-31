@@ -1,7 +1,7 @@
 from Classes.script_maker import Scriptor
 from Classes.code_generator import CodeGenerator
 from Classes.uploader import Uploader
-from Classes.photo_finder import PhotoFinder
+from Classes.media_downloader import MediaDownloader
 from Classes.video_editor import VideoEditor
 from Classes.voice_over import VoiceOver
 from Classes.utils import Utilities
@@ -12,7 +12,7 @@ def main():
     scriptor = Scriptor()
     code_generator = CodeGenerator()
     uploader = Uploader()
-    photo_finder = PhotoFinder()
+    media_downloader = MediaDownloader()
     video_editor = VideoEditor()
     voice_over = VoiceOver()
     
@@ -37,13 +37,17 @@ def main():
         common_mistakes_audio.append(audio)
         outro_audio = voice_over.create_voiceover(outro,"outro")
     
-    # code_snippet = code_generator.generate_code_snippet(code)
+    code_snippet = code_generator.generate_code(solution_code)
     
-    # photos_paths =  photo_finder.find_photos(visual)
+    photos_paths =  media_downloader.download(problem_visual)
     
     # video_path = video_editor.generate_video()
     
     # uploader.upload_video(video_path)
     
+    # utils.cleanup_files(
+    #    topic_audi      
+    #   
+    #)
 if __name__ == "__main__":
     main()

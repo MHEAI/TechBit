@@ -37,7 +37,7 @@ class Scriptor:
 
             🟢 Pauses: Add `[...]` (3 dots in brackets) to indicate short dramatic pauses.
 
-            🟢 Visual cues: Keep "visual", "visual_tags", "sfx_tags", and "music_mood" fields simple and creative — they help the video editor layer sound and visuals.
+            🟢 Visual cues: In the visual things give one word answer and keep into account that this keyword is going to be passed into a stock image Api
 
             Return ONLY the valid JSON below. Do NOT include anything else.
 
